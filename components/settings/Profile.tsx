@@ -1,13 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import ImageUpLoading, { ImageListType } from "react-images-uploading";
+import type { ImageListType } from "react-images-uploading";
+import ImageUpLoading from "react-images-uploading";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -94,7 +96,7 @@ const Profile = ({ user }: ProfileProps) => {
 
   return (
     <div>
-      <div className="text-xl font-bold text-center mb-5">プロフィール</div>
+      <div className="mb-5 text-center text-xl font-bold">プロフィール</div>
       <Form {...form}>
         <div className="mb-5">
           <ImageUpLoading
@@ -104,11 +106,11 @@ const Profile = ({ user }: ProfileProps) => {
             acceptType={["jpg", "png", "jpeg"]}
           >
             {({ imageList, onImageUpdate }) => (
-              <div className="w-full flex flex-col items-center justify-center">
+              <div className="flex w-full flex-col items-center justify-center">
                 {imageList.map((image, index) => (
                   <div key={index}>
                     {image.dataURL && (
-                      <div className="w-24 h-24 relative">
+                      <div className="relative size-24">
                         <Image
                           fill
                           src={image.dataURL as string}
@@ -120,7 +122,7 @@ const Profile = ({ user }: ProfileProps) => {
                   </div>
                 ))}
                 {imageList.length > 0 && (
-                  <div className="text-center mt-3">
+                  <div className="mt-3 text-center">
                     <Button variant="outline" onClick={() => onImageUpdate(0)}>
                       アバターの変更
                     </Button>
@@ -163,7 +165,7 @@ const Profile = ({ user }: ProfileProps) => {
             )}
           />
           <Button disabled={isPending} type="submit" className="w-full">
-            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
             変更
           </Button>
         </form>

@@ -82,7 +82,7 @@ const PaginationButton = ({
       <Button
         variant="outline"
         size="icon"
-        className="h-8 w-8"
+        className="size-8"
         onClick={() => {
           startTransiton(() => {
             router.push(
@@ -92,13 +92,13 @@ const PaginationButton = ({
         }}
         disabled={Number(page) === 1 || isPending}
       >
-        <ChevronsLeft className="h-5 w-5" />
+        <ChevronsLeft className="size-5" />
         <span className="sr-only">First page</span>
       </Button>
       <Button
         variant="outline"
         size="icon"
-        className="h-8 w-8"
+        className="size-8"
         onClick={() => {
           startTransiton(() => {
             router.push(
@@ -108,7 +108,7 @@ const PaginationButton = ({
         }}
         disabled={Number(page) === 1 || isPending}
       >
-        <ChevronLeft className="h-5 w-5" />
+        <ChevronLeft className="size-5" />
         <span className="sr-only">Previous page</span>
       </Button>
       {paginationRange.map((pageNumber, index) =>
@@ -118,7 +118,7 @@ const PaginationButton = ({
             key={index}
             variant="outline"
             size="icon"
-            className="h-8 w-8"
+            className="size-8"
             disabled
           >
             ...
@@ -129,7 +129,7 @@ const PaginationButton = ({
             key={index}
             variant={Number(page) === pageNumber ? "default" : "outline"}
             size="icon"
-            className="h-8 w-8"
+            className="size-8"
             onClick={() => {
               startTransiton(() => {
                 router.push(
@@ -146,7 +146,7 @@ const PaginationButton = ({
       <Button
         variant="outline"
         size="icon"
-        className="h-8 w-8"
+        className="size-8"
         onClick={() => {
           startTransiton(() => {
             router.push(
@@ -156,13 +156,13 @@ const PaginationButton = ({
         }}
         disabled={Number(page) === (pageCount ?? 10) || isPending}
       >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="size-5" />
         <span className="sr-only">Next page</span>
       </Button>
       <Button
         variant="outline"
         size="icon"
-        className="h-8 w-8"
+        className="size-8"
         onClick={() => {
           startTransiton(() => {
             router.push(
@@ -172,7 +172,7 @@ const PaginationButton = ({
         }}
         disabled={Number(page) === (pageCount ?? 10) || isPending}
       >
-        <ChevronsRight className="h-5 w-5" aria-hidden="true" />
+        <ChevronsRight className="size-5" aria-hidden="true" />
         <span className="sr-only">Last page</span>
       </Button>
     </div>

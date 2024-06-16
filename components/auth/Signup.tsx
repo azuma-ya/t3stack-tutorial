@@ -5,7 +5,8 @@ import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
@@ -80,12 +81,12 @@ const Signup = () => {
   };
 
   return (
-    <div className="max-w-[400px] m-auto">
-      <div className="text2xl font-bold text-center items-center mb-10">
+    <div className="m-auto max-w-[400px]">
+      <div className="text2xl mb-10 items-center text-center font-bold">
         新規登録
       </div>
       <Button variant="outline" className="w-full" onClick={handleGoogleSignup}>
-        <FcGoogle className="mr-2 h-4 w-4" />
+        <FcGoogle className="mr-2 size-4" />
         Googleアカウント
       </Button>
       <div className="relative my-5">
@@ -141,12 +142,12 @@ const Signup = () => {
             サインアップすることで、利用規約、プライバシーポリシーに同意したことになります。
           </div>
           <Button disabled={isPending} type="submit" className="w-full">
-            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
             アカウント作成
           </Button>
         </form>
       </Form>
-      <div className="text-center mt-5">
+      <div className="mt-5 text-center">
         <Link href="/login" className="text-sm text-blue-500">
           すでにアカウントをお持ちの方
         </Link>

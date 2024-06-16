@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import { getSubscription } from "@/actions/subscription";
 import Navigation from "@/components/auth/Navigation";
 import AuthProvider from "@/components/providers/AuthProvider";
 import ToastProvider from "@/components/providers/ToastProbider";
@@ -23,13 +24,15 @@ interface RootLayoutProps {
 const RootLayout = async ({ children }: RootLayoutProps) => {
   const user = await getAuthSession();
 
+  const { isSubscribed } = await getSubscription({ userId: user?.id });
+
   return (
     <html lang="ja">
       <body className={inter.className}>
         <div className="flex min-h-screen flex-col">
           <AuthProvider>
             <TrpcProvider>
-              <Navigation user={user} />
+              <Navigation user={user} isSubscribed={isSubscribed} />
               <ToastProvider />
               <main className="container mx-auto max-w-screen-md flex-1 px-2">
                 {children}

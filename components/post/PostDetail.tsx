@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 import CommentDetail from "@/components/comment/CommentDetail";
 import { trpc } from "@/trpc/react";
-import { Comment, CommentLike, Post, User } from "@prisma/client";
+import type { Comment, CommentLike, Post, User } from "@prisma/client";
 
 interface PostDetailProps {
   post: Post & {
@@ -22,6 +22,7 @@ interface PostDetailProps {
   } & { likes: CommentLike[] })[];
   pageCount: number;
   totalComments: number;
+  isSubscribed: boolean;
 }
 
 const PostDetail = ({
@@ -30,8 +31,16 @@ const PostDetail = ({
   comments,
   pageCount,
   totalComments,
+  isSubscribed,
 }: PostDetailProps) => {
   const router = useRouter();
+
+  const isSubscribedPost = post.premium && !isSubscribed && post.id !== userId;
+
+  const content =
+    isSubscribedPost && post.content.length > 200
+      ? post.content.slice(0, 200) + "..."
+      : post.content;
 
   const { mutate: deletePost, isPending } = trpc.post.deletePost.useMutation({
     onSuccess: () => {
@@ -58,11 +67,16 @@ const PostDetail = ({
 
   return (
     <div className="space-y-5">
-      <div className="font-bold text-2xl break-words">{post.title}</div>
+      {post.premium && (
+        <div className="inline-block rounded-md bg-gradient-radial from-blue-500 to-sky-400 px-3 py-1 text-xs font-semibold text-white">
+          有料会員限定
+        </div>
+      )}
+      <div className="break-words text-2xl font-bold">{post.title}</div>
       <div>
         <Link href={`/author/${post.user.id}`}>
           <div className="flex items-center space-x-1">
-            <div className="relative w-6 h-6 flex-shrink-0">
+            <div className="relative size-6 shrink-0">
               <Image
                 src={post.user.image || "/default.png"}
                 className="rounded-full object-cover"
@@ -70,38 +84,61 @@ const PostDetail = ({
                 fill
               />
             </div>
-            <div className="text-sm hover:underline break-words min-w-0">
+            <div className="min-w-0 break-words text-sm hover:underline">
               {post.user.name} |{" "}
               {format(new Date(post.updatedAt), "yyyy/MM/dd HH:mm")}
             </div>
           </div>
         </Link>
       </div>
-      <div className="aspect-[16/9] relative">
+      <div className="relative aspect-[16/9]">
         <Image
           fill
           src={post.image || "/noImage.png"}
           alt="thumbnail"
-          className="object-cover rounded-md"
+          className="rounded-md object-cover"
         />
       </div>
-      <div className="leading-relaxed break-words whitespace-pre-wrap">
-        {post.content}
+      <div className="whitespace-pre-wrap break-words leading-relaxed">
+        {content}
       </div>
       {userId === post.user.id && (
         <div className="flex items-center justify-end space-x-1">
           <Link href={`/post/${post.id}/edit`}>
-            <div className="hover:bg-gray-100 p-2 rounded-full">
-              <Pencil className="w-5 h-5" />
+            <div className="rounded-full p-2 hover:bg-gray-100">
+              <Pencil className="size-5" />
             </div>
           </Link>
           <button
-            className="hover:bg-gray-100 p-2 rounded-full"
+            className="rounded-full p-2 hover:bg-gray-100"
             disabled={isPending}
             onClick={handleDeletePost}
           >
-            <Trash2 className="w-5 h-5 text-red-500" />
+            <Trash2 className="size-5 text-red-500" />
           </button>
+        </div>
+      )}
+      {isSubscribedPost && (
+        <div className="space-y-5 rounded-md bg-gradient-radial from-blue-500 to-sky-500 p-5 text-center text-white sm:p-10">
+          <div>この記事の続きは有料会員になるとお読みいただけます。</div>
+          <div className="inline-block">
+            {userId ? (
+              <Link href="/payment">
+                <div className="w-[300px] rounded-md bg-white py-2 font-bold text-blue-500 shadow hover:bg-white/90">
+                  有料プランを見る
+                </div>
+              </Link>
+            ) : (
+              <Link href="/login">
+                <div className="w-[300px] rounded-md bg-white py-2 font-bold text-blue-500 shadow hover:bg-white/90">
+                  ログインする
+                </div>
+              </Link>
+            )}
+          </div>
+          <div className="text-xs">※いつでも解約可能です</div>
+          <div className="font-bold">有料会員特典</div>
+          <div className="text-sm">有料記事が読み放題</div>
         </div>
       )}
       <CommentDetail

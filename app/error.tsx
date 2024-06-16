@@ -3,7 +3,7 @@
 const Error = () => {
   return (
     <div>
-      <div className="textcenter text-5xl font-bold mb-3">500</div>
+      <div className="textcenter mb-3 text-5xl font-bold">500</div>
       <div className="text-center text-xl font-bold">Server Error</div>
     </div>
   );

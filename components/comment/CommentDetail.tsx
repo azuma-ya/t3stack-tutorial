@@ -1,6 +1,6 @@
 "use client";
 
-import { Comment, CommentLike, User } from "@prisma/client";
+import type { Comment, CommentLike, User } from "@prisma/client";
 
 import CommentItem from "@/components/comment/CommentItem";
 import CommentNew from "@/components/comment/CommentNew";
@@ -28,12 +28,12 @@ const CommentDetail = ({
   return (
     <div className="space-y-5">
       <CommentNew userId={userId} postId={postId} />
-      <div className="border rounded-md">
-        <div className="border-b bg-gray-50 rounded-t-xl p-2 sm:p-5 text-sm font-bold">
+      <div className="rounded-md border">
+        <div className="rounded-t-xl border-b bg-gray-50 p-2 text-sm font-bold sm:p-5">
           コメント {totalComments}
         </div>
         {comments.length === 0 ? (
-          <div className="text-center text-sm text-gray-500 my-10">
+          <div className="my-10 text-center text-sm text-gray-500">
             コメントはありません
           </div>
         ) : (

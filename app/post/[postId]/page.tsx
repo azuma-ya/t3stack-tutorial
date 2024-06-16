@@ -1,3 +1,4 @@
+import { getSubscription } from "@/actions/subscription";
 import PostDetail from "@/components/post/PostDetail";
 import { getAuthSession } from "@/lib/auth";
 import { commentPerPage } from "@/lib/utils";
@@ -33,6 +34,8 @@ const PostDetailPage = async ({
     );
   }
 
+  const { isSubscribed } = await getSubscription({ userId: user?.id });
+
   const { comments, totalComments } = await trpc.comment.getComments({
     userId: user?.id,
     postId,
@@ -49,6 +52,7 @@ const PostDetailPage = async ({
       comments={comments}
       pageCount={pageCount}
       totalComments={totalComments}
+      isSubscribed={isSubscribed}
     />
   );
 };

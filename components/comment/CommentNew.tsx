@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 
@@ -63,8 +64,8 @@ const CommentNew = ({ userId, postId }: CommentNewProps) => {
   };
 
   return (
-    <div className="border rounded-md p-2 sm:p-5 bg-gray-50">
-      <div className="text-sm font-bold mb-2 sm:mb-5">コメントする</div>
+    <div className="rounded-md border bg-gray-50 p-2 sm:p-5">
+      <div className="mb-2 text-sm font-bold sm:mb-5">コメントする</div>
       {userId ? (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -86,15 +87,15 @@ const CommentNew = ({ userId, postId }: CommentNewProps) => {
               )}
             />
             <Button disabled={isPending} type="submit" className="w-full">
-              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
               投稿
             </Button>
           </form>
         </Form>
       ) : (
-        <div className="text-center text-sm text-gray-500 my-10">
+        <div className="my-10 text-center text-sm text-gray-500">
           コメントするには
-          <Link href="/login" className="underline text-sky-500">
+          <Link href="/login" className="text-sky-500 underline">
             ログイン
           </Link>
           してください

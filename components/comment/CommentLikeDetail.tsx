@@ -1,6 +1,6 @@
 "use client";
 
-import { Comment, CommentLike, User } from "@prisma/client";
+import type { Comment, CommentLike, User } from "@prisma/client";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -74,11 +74,11 @@ const CommentLikeDetail = ({ comment, userId }: CommentLikeDetailProps) => {
     <div className="flex items-center">
       {hasLiked ? (
         <button
-          className="hover:bg-gray-100 p-2 rounded-full"
+          className="rounded-full p-2 hover:bg-gray-100"
           disabled={createCommentLikeLoading || deleteCommentLikeLoading}
           onClick={handleDeleteCommentLike}
         >
-          <Heart fill="rgb(236, 72, 153)" className="w-5 h-5 text-pink-500" />
+          <Heart fill="rgb(236, 72, 153)" className="size-5 text-pink-500" />
         </button>
       ) : (
         <button
@@ -88,7 +88,7 @@ const CommentLikeDetail = ({ comment, userId }: CommentLikeDetailProps) => {
           }
           onClick={handleCreateCommentLike}
         >
-          <Heart className="w-5 h-5" />
+          <Heart className="size-5" />
         </button>
       )}
       {likeCount > 0 && <div className="pr-1">{likeCount}</div>}

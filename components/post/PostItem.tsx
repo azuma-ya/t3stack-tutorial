@@ -1,6 +1,6 @@
 "use client";
 
-import { Post, User } from "@prisma/client";
+import type { Post, User } from "@prisma/client";
 import { formatDistance } from "date-fns";
 import { ja } from "date-fns/locale";
 import Image from "next/image";
@@ -22,19 +22,24 @@ const PostItem = ({ post }: PostItemProps) => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 sm:gap-3 space-y-3 sm:space-y-0">
+      <div className="grid grid-cols-1 space-y-3 sm:grid-cols-3 sm:gap-3 sm:space-y-0">
         <Link href={`/post/${post.id}`} className="relative">
-          <div className="aspect-[16/9] relative col-span-3 sm:col-span-1 overflow-hidden rounded-md">
+          {post.premium && (
+            <div className="absolute top-0 z-10 rounded-md bg-gradient-radial from-blue-500 to-sky-400 px-3 py-1 text-xs font-semibold text-white">
+              有料会員限定
+            </div>
+          )}
+          <div className="relative col-span-3 aspect-[16/9] overflow-hidden rounded-md sm:col-span-1">
             <Image
               fill
               src={post.image || "/noImage.png"}
               alt="thumbnail"
-              className="object-cover rounded-md transition-all hover:scale-105"
+              className="rounded-md object-cover transition-all hover:scale-105"
             />
           </div>
         </Link>
-        <div className="col-span-1 sm:col-span-2 space-y-3 break-words">
-          <div className="font-bold text-lg hover:underline">
+        <div className="col-span-1 space-y-3 break-words sm:col-span-2">
+          <div className="text-lg font-bold hover:underline">
             <Link href={`/post/${post.id}`}>{post.title}</Link>
           </div>
           <div className="hover:underline">
@@ -43,7 +48,7 @@ const PostItem = ({ post }: PostItemProps) => {
           <div>
             <Link href={`/author/${post.user.id}`}>
               <div className="flex items-center space-x-1">
-                <div className="relative w-6 h-6 flex-shrink-0">
+                <div className="relative size-6 shrink-0">
                   <Image
                     src={post.user.image || "/default.png"}
                     className="rounded-full object-cover"
@@ -51,7 +56,7 @@ const PostItem = ({ post }: PostItemProps) => {
                     fill
                   />
                 </div>
-                <div className="text-sm hover:underline break-words min-w-0">
+                <div className="min-w-0 break-words text-sm hover:underline">
                   {post.user.name} | {date}
                 </div>
               </div>

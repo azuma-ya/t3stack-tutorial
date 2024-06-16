@@ -5,15 +5,19 @@ import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import ImageUploading, { ImageListType } from "react-images-uploading";
+import type { ImageListType } from "react-images-uploading";
+import ImageUploading from "react-images-uploading";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,12 +26,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/trpc/react";
-import { Post } from "@prisma/client";
+import type { Post } from "@prisma/client";
 
 //入力データの検証ルールを定義
 const schema = z.object({
   title: z.string().min(3, { message: "3文字以上入力する必要があります" }),
   content: z.string().min(3, { message: "3文字以上入力する必要があります" }),
+  premium: z.boolean(),
 });
 
 //入力データの型を定義
@@ -48,6 +53,7 @@ const PostEdit = ({ post }: PostEditProps) => {
     defaultValues: {
       title: post.title || "",
       content: post.content || "",
+      premium: post.premium || false,
     },
   });
 
@@ -78,6 +84,7 @@ const PostEdit = ({ post }: PostEditProps) => {
       title: data.title,
       content: data.content,
       base64Image,
+      premium: data.premium,
     });
   };
 
@@ -94,7 +101,7 @@ const PostEdit = ({ post }: PostEditProps) => {
   };
   return (
     <div>
-      <div className="text-2xl font-bold text-center mb-5">記事編集</div>
+      <div className="mb-5 text-center text-2xl font-bold">記事編集</div>
       <Form {...form}>
         <div className="mb-3">
           <FormLabel>サムネイル</FormLabel>
@@ -110,19 +117,19 @@ const PostEdit = ({ post }: PostEditProps) => {
                   {imageList.map((image, index) => (
                     <div key={index}>
                       {image.dataURL && (
-                        <div className="aspect-[16/9] relative">
+                        <div className="relative aspect-[16/9]">
                           <Image
                             fill
                             src={image.dataURL}
                             alt="thumbnail"
-                            className="object-cover runded-md"
+                            className="runded-md object-cover"
                           />
                         </div>
                       )}
                     </div>
                   ))}
                   {imageList.length > 0 && (
-                    <div className="text-center mt-3">
+                    <div className="mt-3 text-center">
                       <Button
                         variant="outline"
                         onClick={() => onImageUpdate(0)}
@@ -163,8 +170,28 @@ const PostEdit = ({ post }: PostEditProps) => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="premium"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-5 shadow-sm">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-2 leading-none">
+                  <FormLabel>有料会員限定</FormLabel>
+                  <FormDescription>
+                    有料会員のみが閲覧できるようにする
+                  </FormDescription>
+                </div>
+              </FormItem>
+            )}
+          />
           <Button disabled={isPending} type="submit" className="w-full">
-            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
             編集
           </Button>
         </form>

@@ -1,6 +1,7 @@
 import { authRouter } from "@/trpc/server/routers/auth";
 import { commentRouter } from "@/trpc/server/routers/comment";
 import { postRouter } from "@/trpc/server/routers/post";
+import { subscriptionRouter } from "@/trpc/server/routers/subscription";
 import { userRouter } from "@/trpc/server/routers/user";
 import { createCallerFactory, router } from "@/trpc/server/trpc";
 
@@ -10,6 +11,7 @@ export const appRouter = router({
   user: userRouter,
   post: postRouter,
   comment: commentRouter,
+  subscription: subscriptionRouter,
 });
 
 //ルーターの型定義

@@ -7,7 +7,8 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
@@ -81,12 +82,12 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-[400px] m-auto">
-      <div className="text2xl font-bold text-center items-center mb-10">
+    <div className="m-auto max-w-[400px]">
+      <div className="text2xl mb-10 items-center text-center font-bold">
         ログイン
       </div>
       <Button variant="outline" className="w-full" onClick={handleGoogleSignup}>
-        <FcGoogle className="mr-2 h-4 w-4" />
+        <FcGoogle className="mr-2 size-4" />
         Googleアカウント
       </Button>
       <div className="relative my-5">
@@ -126,17 +127,17 @@ const Login = () => {
             )}
           />
           <Button disabled={isLoading} type="submit" className="w-full">
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
             ログイン
           </Button>
         </form>
       </Form>
-      <div className="text-center mt-5">
+      <div className="mt-5 text-center">
         <Link href="/reset-password" className="text-sm text-blue-500">
           パスワードを忘れた方
         </Link>
       </div>
-      <div className="text-center mt-2">
+      <div className="mt-2 text-center">
         <Link href="/login" className="text-sm text-blue-500">
           アカウントを作成する
         </Link>

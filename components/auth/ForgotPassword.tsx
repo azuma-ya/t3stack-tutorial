@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 
@@ -53,8 +54,8 @@ const ForgotPassword = () => {
     forgotPassword(data);
   };
   return (
-    <div className="max-w-[400px] m-auto">
-      <div className="text2xl font-bold text-center items-center mb-10">
+    <div className="m-auto max-w-[400px]">
+      <div className="text2xl mb-10 items-center text-center font-bold">
         パスワード再設定
       </div>
       <Form {...form}>
@@ -73,7 +74,7 @@ const ForgotPassword = () => {
             )}
           />
           <Button disabled={isPending} type="submit" className="w-full">
-            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
             変更
           </Button>
         </form>

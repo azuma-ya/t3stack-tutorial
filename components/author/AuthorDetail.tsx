@@ -3,7 +3,7 @@ import Image from "next/image";
 import AuthorPostItem from "@/components/author/AuthorPostItem";
 import PaginationButton from "@/components/pagers/PaginationButton";
 import { userPostPerPage } from "@/lib/utils";
-import { Post, User } from "@prisma/client";
+import type { Post, User } from "@prisma/client";
 
 interface AuthorDetailProps {
   user: User & {
@@ -16,8 +16,8 @@ interface AuthorDetailProps {
 const AuthorDetail = ({ user, pageCount, totalPosts }: AuthorDetailProps) => {
   return (
     <div>
-      <div className="flex justify-center mb-5">
-        <div className="relative w-28 h-28 flex-shrink-0">
+      <div className="mb-5 flex justify-center">
+        <div className="relative size-28 shrink-0">
           <Image
             src={user.image || "/default.png"}
             className="rounded-full object-cover"
@@ -26,13 +26,13 @@ const AuthorDetail = ({ user, pageCount, totalPosts }: AuthorDetailProps) => {
           />
         </div>
       </div>
-      <div className="space-y-5 break-words whitespace-pre-wrap mb-5">
-        <div className="font-bold text-xl text-center">{user.name}</div>
+      <div className="mb-5 space-y-5 whitespace-pre-wrap break-words">
+        <div className="text-center text-xl font-bold">{user.name}</div>
         <div className="leading-relaxed">{user.introduction}</div>
       </div>
       <div className="space-y-5">
         <div>
-          <div className="font-bold mb-1">投稿 {totalPosts}</div>
+          <div className="mb-1 font-bold">投稿 {totalPosts}</div>
           <hr />
         </div>
         {user.posts.length === 0 ? (
@@ -40,7 +40,7 @@ const AuthorDetail = ({ user, pageCount, totalPosts }: AuthorDetailProps) => {
             投稿はありません
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 break-words">
+          <div className="grid grid-cols-1 gap-5 break-words sm:grid-cols-3">
             {user.posts.map((post) => (
               <AuthorPostItem key={post.id} post={post} />
             ))}

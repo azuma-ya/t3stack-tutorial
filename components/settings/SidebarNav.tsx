@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 
 const items = [
   { title: "プロフィール", href: "/settings/profile" },
+  { title: "定期購入", href: "/settings/billing" },
   { title: "パスワード変更", href: "/settings/password" },
 ];
 

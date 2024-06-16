@@ -15,6 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: { label: "email", type: "text" },
         password: { label: "password", type: "password" },
       },
+      // eslint-disable-next-line
       async authorize(request: any) {
         if (!request.email || !request.password) {
           throw new Error("メールアドレスとパスワードが存在しません");

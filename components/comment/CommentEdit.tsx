@@ -3,7 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 
@@ -17,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/trpc/react";
-import { Comment } from "@prisma/client";
+import type { Comment } from "@prisma/client";
 
 //入力データの検証ルールを定義
 const schema = z.object({
@@ -62,7 +63,7 @@ const CommentEdit = ({ comment }: CommentEditProps) => {
   };
   return (
     <div>
-      <div className="text-2xl font-bold text-center mb-5">コメント編集</div>
+      <div className="mb-5 text-center text-2xl font-bold">コメント編集</div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <FormField
@@ -83,7 +84,7 @@ const CommentEdit = ({ comment }: CommentEditProps) => {
             )}
           />
           <Button disabled={isPending} type="submit" className="w-full">
-            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
             編集
           </Button>
         </form>

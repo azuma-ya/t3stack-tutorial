@@ -1,4 +1,4 @@
-import { Post } from "@prisma/client";
+import type { Post } from "@prisma/client";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,13 +9,18 @@ interface AuthorPostItemProps {
 
 const AuthorPostItem = ({ post }: AuthorPostItemProps) => {
   return (
-    <div className="border rounded-md">
-      <Link href={`/post/${post.id}`} className="flex-grow">
-        <div className="aspect-[16/9] relative overflow-hidden rounded-t-md">
+    <div className="relative rounded-md border">
+      <Link href={`/post/${post.id}`} className="grow">
+        {post.premium && (
+          <div className="absolute top-0 z-10 rounded-md bg-gradient-radial from-blue-500 to-sky-400 px-3 py-1 text-xs font-semibold text-white">
+            有料会員限定
+          </div>
+        )}
+        <div className="relative aspect-[16/9] overflow-hidden rounded-t-md">
           <Image
             src={post.image || "/noImage.png"}
             alt="thumbnail"
-            className="object-cover rounded-t-md transition-all hover:scale-105"
+            className="rounded-t-md object-cover transition-all hover:scale-105"
             fill
           />
         </div>
