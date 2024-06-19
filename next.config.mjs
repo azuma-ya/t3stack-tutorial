@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  distDir: "dist",
+  distDir: "build",
   images: { domains: ["lh3.googleusercontent.com", "res.cloudinary.com"] },
 };
 
